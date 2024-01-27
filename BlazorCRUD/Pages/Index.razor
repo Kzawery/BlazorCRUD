@@ -1,0 +1,20 @@
+﻿@page "/"
+@using BlazorCRUD.Adapters
+@using BlazorCRUD.Models
+
+@using Syncfusion.Blazor.Grids
+
+<SfGrid TValue="Employee" ID="Grid" Toolbar="@(new List<string>() {"Add", "Delete", "Update", "Cancel"})" AllowSorting="true" AllowMultiSorting="true">
+    <SfDataManager AdaptorInstance="typeof(EmployeeAdapter)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
+    <GridEditSettings AllowEditing="true" AllowDeleting="true" AllowAdding="true" Mode="@EditMode.Normal"></GridEditSettings>
+    <GridColumns>
+        <GridColumn Field="@nameof(Employee.Id)" Width="50" IsPrimaryKey="true"></GridColumn>
+        <GridColumn Field="@nameof(Employee.Name)" Width="100"></GridColumn>
+        <GridColumn Field="@nameof(Employee.Age)" Width="100"></GridColumn>
+        <GridColumn Field="@nameof(Employee.Address)" Width="100"></GridColumn>
+        <GridColumn Field="@nameof(Employee.MobileNumber)" Width="100" HeaderText="Mobile Number"></GridColumn>
+        <GridColumn Field="@nameof(Employee.JobId)" Width="100" HeaderText="Job Id"></GridColumn>
+    </GridColumns>
+</SfGrid>
+
+

@@ -1,0 +1,52 @@
+﻿@inherits LayoutComponentBase
+@using BlazorCRUD.Services
+@inject NavigationManager NavigationManager
+@inject AuthService AuthService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>BlazorCRUD</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <button @onclick="Logout" target="_blank">Logout</button>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private bool _isAuthenticated;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isAuthenticated = await AuthService.IsUserAuthenticated();
+            if (!_isAuthenticated)
+            {
+                NavigationManager.NavigateTo("/login");
+            }
+
+            await AuthService.SetAuthorizationHeaderAsync();
+            StateHasChanged();
+        }
+    }
+
+    private async Task Logout()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "authToken");
+
+        await AuthService.ClearAuthorizationHeaderAsync();
+
+        NavigationManager.NavigateTo("/login", forceLoad: true);
+    }
+
+}

@@ -1,0 +1,18 @@
+﻿@page "/jobs"
+@using BlazorCRUD.Adapters
+@using BlazorCRUD.Models
+
+@using Syncfusion.Blazor.Grids
+
+<h3>Jobs</h3>
+
+<SfGrid TValue="Job" ID="JobGrid" Toolbar="@(new List<string>() {"Add", "Delete", "Update", "Cancel"})" AllowSorting="true" AllowMultiSorting="true">
+    <SfDataManager AdaptorInstance="typeof(JobAdapter)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
+    <GridEditSettings AllowEditing="true" AllowDeleting="true" AllowAdding="true" Mode="@EditMode.Normal"></GridEditSettings>
+    <GridColumns>
+        <GridColumn Field="@nameof(Job.Id)" HeaderText="Job ID" Width="100" IsPrimaryKey="true"></GridColumn>
+        <GridColumn Field="@nameof(Job.Description)" HeaderText="Description" Width="200"></GridColumn>
+    </GridColumns>
+</SfGrid>
+
+
